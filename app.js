@@ -79,7 +79,7 @@ app.route("/articles")
 app.route("/articles/:articleTitle") 
   .get(function(req, res){
     // READ a SPECIFIC article 
-    const articleTitle = req.params.articleTitle; 
+    const articleTitle = req.params.articleTitle;
     Article.findOne({title: articleTitle}, function(err, foundArticle){
       if (!err) {
         res.send(foundArticle); 
@@ -87,8 +87,27 @@ app.route("/articles/:articleTitle")
         res.send(err); 
       }
     }); 
-  }); 
+  })
 
+  .put(function(req, res){
+    // replace a SPECIFIC article
+    const articleTitle = req.params.articleTitle;
+    Article.replaceOne(
+      {title: articleTitle},
+      {
+        title: req.body.title,
+        content: req.body.content
+      }, 
+      function(err, activity){
+        if (!err) {
+          res.send(activity); 
+        } else {
+          res.send(err); 
+        }
+      }
+    ); 
+  });
+  
 app.listen(3000, function(){
   console.log("Server started on port 3000."); 
 });
