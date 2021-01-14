@@ -1,8 +1,7 @@
 //jshint esversion:6
 
 // require packages 
-const bodyParser = require("body-parser"); 
-const ejs = require("ejs"); 
+const bodyParser = require("body-parser");  
 const express = require("express"); 
 const mongoose = require("mongoose"); 
 
@@ -122,6 +121,21 @@ app.route("/articles/:articleTitle")
         }
       }
     );
+  })
+
+  .delete(function(req, res){
+    // DELETE CERTAIN article 
+    const articleTitle = req.params.articleTitle; 
+    Article.deleteOne(
+      {title: articleTitle},
+      function(err) {
+        if (!err) {
+          res.send("Deleted article."); 
+        } else {
+          res.send(err)
+        }
+      }
+    );    
   }); 
 
 app.listen(3000, function(){
