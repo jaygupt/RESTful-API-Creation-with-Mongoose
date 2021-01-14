@@ -106,8 +106,24 @@ app.route("/articles/:articleTitle")
         }
       }
     ); 
-  });
-  
+  })
+
+  .patch(function(req, res){
+    // modify certain part of document 
+    const articleTitle = req.params.articleTitle; 
+    Article.updateOne(
+      {title: articleTitle},
+      req.body,
+      function(err, activity){
+        if (!err) {
+          res.send(activity); 
+        } else {
+          res.send(err); 
+        }
+      }
+    );
+  }); 
+
 app.listen(3000, function(){
   console.log("Server started on port 3000."); 
 });
