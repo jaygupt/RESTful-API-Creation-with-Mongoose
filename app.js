@@ -33,6 +33,7 @@ const articleSchema = {
 // create an article model
 const Article = mongoose.model("Article", articleSchema); 
 
+// targeting all articles 
 app.route("/articles")
   .get(function(req, res){
     // READ all articles
@@ -72,7 +73,21 @@ app.route("/articles")
         res.send(err); 
       }
     });
-  });  
+  }); 
+  
+// targeting specific articles
+app.route("/articles/:articleTitle") 
+  .get(function(req, res){
+    // READ a SPECIFIC article 
+    const articleTitle = req.params.articleTitle; 
+    Article.findOne({title: articleTitle}, function(err, foundArticle){
+      if (!err) {
+        res.send(foundArticle); 
+      } else {
+        res.send(err); 
+      }
+    }); 
+  }); 
 
 app.listen(3000, function(){
   console.log("Server started on port 3000."); 
